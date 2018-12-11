@@ -3,7 +3,7 @@ package kalkulator;
 /**
  * Created by ANKRAWCZ on 2018-12-11.
  */
-public class KalkulatorApp {
+public class CalculatorApp {
     public int add(int  x, int y) {
 
         return x + y;
