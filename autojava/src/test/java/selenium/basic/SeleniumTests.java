@@ -10,6 +10,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -23,6 +24,8 @@ public class SeleniumTests {
     public void startDriver() {
         // Start Chrome browser
         driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
     }
 
     @Test
@@ -80,12 +83,23 @@ public class SeleniumTests {
         List<WebElement> filteredNotes = listOfNotes.collect(Collectors.toList());
         Assertions.assertEquals(1, filteredNotes.size(), "only one matching note is found on main page");
 
+        driver.findElement(By.cssSelector("#eu-cookie-law input")).submit();
+
+        filteredNotes.get(0).click();
+
+        WebElement author = driver.findElement(By.cssSelector(".author > a"));
+
+        Assertions.assertEquals("Rafał", author.getText(), "Proper author name is displayed");
+        Assertions.assertEquals("http://markowicz.pro/author/rafal-markowicz/", author.getAttribute("href"),"Valid author is displayed");
+
 
     }
+
+
+
+
+
     // This will execute after each test case (after each method annotated with @Test is executed)
-
-
-
 
     @AfterEach
     public void closeDriver() {
